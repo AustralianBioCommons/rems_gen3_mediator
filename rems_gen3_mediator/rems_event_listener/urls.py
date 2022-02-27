@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import RemsEntitlementReceiver
+from .views import RemsEntitlementAdd, RemsEntitlementRemove
 
 urlpatterns = [
-    path('', RemsEntitlementReceiver.as_view()),
+    path('entitlement/add', RemsEntitlementAdd.as_view()),
+    path('entitlement/remove', RemsEntitlementRemove.as_view()),
 ]

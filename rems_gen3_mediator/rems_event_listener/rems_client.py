@@ -42,7 +42,7 @@ class RemsClient:
     def query_resources(self):
         return self.make_get_request('/api/resources')
 
-    def rems_create_resource(self, resource_urn: str, organization_id: str, license_id: int):
+    def create_resource(self, resource_urn: str, organization_id: str, license_id: int):
         body = {
             "resid": resource_urn,
             "organization": {

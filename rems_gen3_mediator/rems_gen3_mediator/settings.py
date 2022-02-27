@@ -25,13 +25,12 @@ SECRET_KEY = '=$09@xxvis&oj!n!j47qvvqs&byrtm_3$0&w%=5p+p5@=+yjh2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -120,3 +119,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# GEN3 CONFIG
+import json
+
+GEN3_SERVER_URL = os.environ.get('GEN3_SERVER_URL') or 'https://data.acdc.ozheart.org'
+GEN3_AUTH_CONFIG = json.loads(os.environ['GEN3_AUTH_CONFIG'])
+
+# REMS CONFIG
+REMS_SERVER_URL = os.environ.get('REMS_SERVER_URL') or 'http://localhost'
+REMS_USER_ID = os.environ['REMS_USER_ID']
+REMS_API_KEY = os.environ['REMS_API_KEY']
+REMS_ORGANIZATION_ID = os.environ['REMS_ORGANIZATION_ID']
+REMS_LICENSE_ID = os.environ['REMS_LICENSE_ID'] if os.environ.get('REMS_LICENSE_ID') else 1

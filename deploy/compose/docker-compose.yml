@@ -1,0 +1,38 @@
+### Example file for development usage
+
+version: '2'
+services:
+
+  app:
+    image: cscfi/rems
+    mem_reservation: 200m
+    mem_limit: 2000m
+    ports:
+      - "80:80"
+    volumes:
+      - ./gen3-rems-config.edn:/rems/config/config.edn
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    mem_reservation: 30m
+    mem_limit: 150m
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  mediator:
+    image: nuwang/rems_gen3_mediator
+    environment:
+      GEN3_SERVER_URL: ${GEN3_SERVER_URL}
+      GEN3_AUTH_CONFIG: ${GEN3_AUTH_CONFIG}
+      REMS_SERVER_URL: ${REMS_SERVER_URL}
+      REMS_USER_ID: ${REMS_USER_ID}
+      REMS_API_KEY: ${REMS_API_KEY}
+      REMS_ORGANIZATION_ID: ${REMS_ORGANIZATION_ID}
+      REMS_LICENSE_ID: ${REMS_LICENSE_ID}
+    mem_reservation: 30m
+    mem_limit: 150m
+    ports:
+      - "127.0.0.1:8000:8000"

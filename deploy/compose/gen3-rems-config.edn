@@ -1,0 +1,6 @@
+{:port 80
+ :database-url "postgresql://db:5432/rems?user=rems&password=remspassword"
+ :search-index-path "/tmp/rems-search-index"
+ :authentication :fake
+ :entitlements-target {:add "http://mediator:8000/entitlements/add" :remove "http://mediator:8000/entitlements/remove"}
+ :public-url "http://localhost/"}

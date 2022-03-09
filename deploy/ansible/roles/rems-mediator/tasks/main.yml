@@ -1,0 +1,42 @@
+---
+# tasks file for rems-mediator
+- name: Ensures rems dir exists
+  file:
+    path: /home/ubuntu/rems
+    state: directory
+
+- name: copy Docker Compose files
+  copy:
+    src: ../compose/docker-compose.yml
+    dest: /home/ubuntu/rems/docker-compose.yml
+
+- name: template rems config file
+  template:
+    src: gen3-rems-config.edn.j2
+    dest: /home/ubuntu/rems/gen3-rems-config.edn
+
+# use files parameter to use multiple docker-compose.yml files
+- name: deploy Docker Compose stack
+  docker_compose:
+    project_src: /home/ubuntu/rems/
+    restarted: yes
+    files:
+    - docker-compose.yml
+  environment: "{{ _rems_environment }}"
+
+- name: Run migration
+  shell: docker-compose run --rm -e CMD="migrate" app
+  args:
+    chdir: /home/ubuntu/rems/
+
+- name: Create admin user
+  shell: 'docker-compose run --rm -e CMD="api-key add {{ rems_admin_api_key }} set-users {{ rems_admin_user }}" app'
+  args:
+    chdir: /home/ubuntu/rems/
+  environment: "{{ _rems_environment }}"
+
+- name: Grant admin role to admin user
+  shell: 'docker-compose run --rm -e CMD="grant-role owner {{ rems_admin_user }}" app'
+  args:
+    chdir: /home/ubuntu/rems/
+  environment: "{{ _rems_environment }}"

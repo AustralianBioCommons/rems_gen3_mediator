@@ -1,0 +1,29 @@
+---
+# defaults file for rems-mediator
+rems_admin_user: admin
+rems_admin_api_key: DEFAULT_IS_INSECURE
+rems_postgres_user: rems
+rems_postgres_password: DEFAULT_IS_INSECURE
+rems_public_url: "http://{{ inventory_hostname }}/"
+gen3_server_url: https://data.acdc.ozheart.org
+gen3_auth_config: |-
+  {
+      "api_key": "OBTAINED_FROM_GEN3",
+      "key_id": "aaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+  }
+rems_server_url: "{{ rems_public_url }}"
+rems_user_id: admin
+rems_api_key: DEFAULT_IS_INSECURE
+rems_organization_id: UniMelb
+rems_license_id: 1
+
+_rems_environment:
+  POSTGRES_USER: "{{ rems_postgres_user }}"
+  POSTGRES_PASSWORD: "{{ rems_postgres_password }}"
+  GEN3_SERVER_URL: "{{ gen3_server_url }}"
+  GEN3_AUTH_CONFIG: "{{ gen3_auth_config }}"
+  REMS_SERVER_URL: "{{ rems_server_url }}"
+  REMS_USER_ID: "{{ rems_user_id }}"
+  REMS_API_KEY: "{{ rems_api_key }}"
+  REMS_ORGANIZATION_ID: "{{ rems_organization_id }}"
+  REMS_LICENSE_ID: "{{ rems_license_id }}"

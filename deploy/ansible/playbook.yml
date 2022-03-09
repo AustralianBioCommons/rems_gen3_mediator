@@ -1,0 +1,8 @@
+---
+# Setup drivers and Docker for a GPU instance
+- hosts: rems_server
+  become: true
+  tasks:
+    - name: Setup REMS mediator
+      include_role:
+        name: rems-mediator

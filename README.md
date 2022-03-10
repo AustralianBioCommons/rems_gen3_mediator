@@ -15,12 +15,29 @@ django app listens for REMS entitlement requests, and makes corresponding change
 #### Ansible
 
 ```bash
+cd deploy/ansible
 ansible-playbook -i inventory.ini playbook.yml
+```
+
+#### Compose
+
+```bash
+cd deploy/compose
+docker-compose up -d db
+docker-compose --rm -e CMD="migrate" app
+docker-compose up -d app mediator
+docker-compose run --rm -e CMD="api-key add testapikey testkeydescription" app
+docker-compose run --rm -e CMD="set-users admin" app
+docker-compose run --rm -e CMD="grant-role owner admin" app
 ```
 
 ### Development
 
 ```bash
+virtualenv venv
+source venv/bin/activate
+pip install -r requirements.txt
+cd rems_gen3_mediator
 GEN3_AUTH_CONFIG=`cat ~/gen3-credentials-3.json` REMS_API_KEY=testapikey REMS_USER_ID=admin REMS_ORGANIZATION_ID=UniMelb python3 manage.py import_gen3_projects
 GEN3_AUTH_CONFIG=`cat ~/gen3-credentials-3.json` REMS_API_KEY=testapikey REMS_USER_ID=admin REMS_ORGANIZATION_ID=UniMelb python3 manage.py runserver
 ```

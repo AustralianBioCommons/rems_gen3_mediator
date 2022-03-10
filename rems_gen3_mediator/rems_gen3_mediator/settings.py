@@ -120,10 +120,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # GEN3 CONFIG
-import json
+import yaml
 
 GEN3_SERVER_URL = os.environ.get('GEN3_SERVER_URL') or 'https://data.acdc.ozheart.org'
-GEN3_AUTH_CONFIG = json.loads(os.environ['GEN3_AUTH_CONFIG'] or '{}')
+GEN3_AUTH_CONFIG = yaml.safe_load(os.environ['GEN3_AUTH_CONFIG'] or '{}')
 
 # REMS CONFIG
 REMS_SERVER_URL = os.environ.get('REMS_SERVER_URL') or 'http://localhost'

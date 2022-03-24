@@ -1,6 +1,11 @@
 {:port 9000
  :database-url "postgresql://db:5432/rems?user={{ rems_postgres_user }}&password={{ rems_postgres_password }}"
  :search-index-path "/tmp/rems-search-index"
- :authentication :fake
+ :authentication :oidc
+ :oidc-metadata-url "https://cilogon.org/.well-known/openid-configuration"
+ :oidc-client-id "{{ rems_oidc_client_id }}"
+ :oidc-client-secret "{{ rems_oidc_client_secret }}"
  :entitlements-target {:add "http://mediator:8000/entitlements/add" :remove "http://mediator:8000/entitlements/remove"}
- :public-url "{{ rems_public_url }}"}
+ :public-url "{{ rems_public_url }}"
+ :languages [:en]
+}

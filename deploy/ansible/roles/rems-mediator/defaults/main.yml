@@ -4,7 +4,7 @@ rems_admin_user: admin
 rems_admin_api_key: DEFAULT_IS_INSECURE
 rems_postgres_user: rems
 rems_postgres_password: DEFAULT_IS_INSECURE
-rems_public_url: "http://{{ inventory_hostname }}/"
+rems_public_url: "https://{{ inventory_hostname }}/"
 gen3_server_url: https://data.acdc.ozheart.org
 gen3_auth_config: |-
   '{
@@ -18,14 +18,10 @@ rems_api_key: DEFAULT_IS_INSECURE
 rems_organization_id: UniMelb
 rems_license_id: 1
 rems_user_roles:
-  - user: admin
+  - user: http://cilogon.org/serverB/users/41516102
     role: user-owner
-  - user: admin
+  - user: http://cilogon.org/serverB/users/41516102
     role: owner
-  - user: nuwan
-    role: owner
-  - user: alice
-    role: applicant
 
 _rems_environment:
   POSTGRES_USER: "{{ rems_postgres_user }}"

@@ -64,3 +64,9 @@
   args:
     chdir: /home/ubuntu/rems/
   environment: "{{ _rems_environment }}"
+
+- name: Import projects from gen3
+  shell: 'docker-compose run --rm mediator python manage.py import_gen3_projects'
+  args:
+    chdir: /home/ubuntu/rems/
+  environment: "{{ _rems_environment }}"

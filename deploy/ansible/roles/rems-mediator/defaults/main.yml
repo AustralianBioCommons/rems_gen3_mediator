@@ -15,7 +15,7 @@ gen3_user_config_file: "/etc/gen3/users.yaml"
 rems_server_url: "{{ rems_public_url }}"
 rems_user_id: admin
 rems_api_key: DEFAULT_IS_INSECURE
-rems_organization_id: UniMelb
+rems_organization_id: biocommons
 rems_license_id: 1
 rems_user_roles:
   - user: http://cilogon.org/serverB/users/41516102

@@ -52,4 +52,4 @@ class RemsClient:
                 license_id
             ]
         }
-        return self.make_get_request('/api/resources/create', body=body)
+        return self.make_post_request('/api/resources/create', body=body)

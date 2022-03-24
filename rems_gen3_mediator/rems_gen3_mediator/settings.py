@@ -131,4 +131,4 @@ REMS_SERVER_URL = os.environ.get('REMS_SERVER_URL') or 'http://localhost'
 REMS_USER_ID = os.environ['REMS_USER_ID']
 REMS_API_KEY = os.environ['REMS_API_KEY']
 REMS_ORGANIZATION_ID = os.environ['REMS_ORGANIZATION_ID']
-REMS_LICENSE_ID = os.environ['REMS_LICENSE_ID'] if os.environ.get('REMS_LICENSE_ID') else 1
+REMS_LICENSE_ID = int(os.environ['REMS_LICENSE_ID']) if os.environ.get('REMS_LICENSE_ID') else 1

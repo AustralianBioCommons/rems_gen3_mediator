@@ -28,14 +28,15 @@ class Command(BaseCommand):
         gen3_token = Command.get_gen3_api_token()
         headers = {"Authorization": f"Bearer {gen3_token}"}
         gen3_graphql_endpoint = urljoin(settings.GEN3_SERVER_URL, "/api/v0/submission/graphql/")
-        response = requests.post(gen3_graphql_endpoint, data='{"query": "{project{id,name}}"}', headers=headers)
+        response = requests.post(
+            gen3_graphql_endpoint, data='{"query": "{project{code,name,programs{name}}}"}', headers=headers)
         return response.json()['data']['project']
 
     def transfer_gen3_projects_to_rems(self):
         try:
             log.debug(f"Importing projects from gen3 server: {settings.GEN3_SERVER_URL}")
-            project_urns = [f"gen3:project:{project['name']}:{project['id']}" for project in
-                            self.get_gen3_projects_list()]
+            project_urns = [f"gen3:program:{project['programs'][0]['name']}:project:{project['name']}:code:{project['code']}"
+                            for project in self.get_gen3_projects_list()]
             rems_client = RemsClient()
             existing_rems_urns = [resource['resid'] for resource in rems_client.query_resources()]
             urns_to_create = set(project_urns).difference(set(existing_rems_urns))

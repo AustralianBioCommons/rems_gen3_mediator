@@ -2,3 +2,4 @@ Django
 requests
 gunicorn
 pyyaml
+fasteners

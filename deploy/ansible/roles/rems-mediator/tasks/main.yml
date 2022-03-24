@@ -5,10 +5,20 @@
     path: /home/ubuntu/rems
     state: directory
 
+- name: Ensures gen3 config dir exists
+  file:
+    path: "{{ gen3_user_config_file | dirname }}"
+    state: directory
+
+- name: Make sure gen3 user config file exists
+  ansible.builtin.file:
+    path: "{{ gen3_user_config_file }}"
+    state: touch
+
 - name: copy Docker Compose files
-  copy:
-    src: ../compose/docker-compose.yml
-    dest: /home/ubuntu/rems/docker-compose.yml
+  synchronize:
+    src: ../compose/
+    dest: /home/ubuntu/rems/
 
 - name: template rems config file
   template:
@@ -37,19 +47,20 @@
   environment: "{{ _rems_environment }}"
 
 - name: Register admin user
-  shell: 'docker-compose run --rm -e CMD="set-users {{ rems_admin_user }}" app'
+  shell: 'docker-compose run --rm -e CMD="api-key set-users {{ rems_admin_user }}" app'
   args:
     chdir: /home/ubuntu/rems/
   environment: "{{ _rems_environment }}"
 
-- name: Make sure admin user is created
-  shell: 'curl -H "x-rems-api-key: {{ rems_admin_api_key }}" -H "x-rems-user-id: {{ rems_admin_user }}" http://localhost/api/catalogue'
+- name: Make sure users are created
+  shell: 'curl -H "x-rems-api-key: {{ rems_admin_api_key }}" -H "x-rems-user-id: {{ item.user }}" http://localhost:9000/api/catalogue'
   args:
     chdir: /home/ubuntu/rems/
   environment: "{{ _rems_environment }}"
+  loop: "{{ rems_user_roles }}"
 
-- name: Grant admin role to admin user
-  shell: 'docker-compose run --rm -e CMD="grant-role owner {{ rems_admin_user }}" app'
+- name: Grant roles to desired users
+  shell: 'docker-compose run --rm -e CMD="{% for item in rems_user_roles %}grant-role {{ item.role }} {{ item.user }};{% endfor %}" app'
   args:
     chdir: /home/ubuntu/rems/
   environment: "{{ _rems_environment }}"
